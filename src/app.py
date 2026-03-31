@@ -77,6 +77,18 @@ def get_single_character(character_id):
     
     return jsonify(response_body), 200
 
+# GET user favorite planets and characters
+@app.route('/users/<int:user_id>/favorites', methods=['GET'])
+def get_favorites(user_id):
+    user = db.get_or_404(User, user_id, description = "No user found")
+    response_body = {
+        "user_id": user.id,
+        "favorite_planets": user.favorite_planets,
+        "favorite_characters": user.favorite_characters
+    }
+    
+    return jsonify(response_body), 200
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
