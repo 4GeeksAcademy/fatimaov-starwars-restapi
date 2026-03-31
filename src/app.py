@@ -56,7 +56,7 @@ def get_planets():
 # GET single planet
 @app.route('/planets/<int:planet_id>', methods=['GET'])
 def get_single_planet(planet_id):
-    planet = db.session.get(Planet, planet_id)
+    planet = db.get_or_404(Planet, planet_id, description = "No planet found")
     response_body = planet.serialize()
     
     return jsonify(response_body), 200
@@ -72,7 +72,7 @@ def get_characters():
 # GET single character
 @app.route('/characters/<int:character_id>', methods=['GET'])
 def get_single_character(character_id):
-    character = db.session.get(Character, character_id)
+    character = db.get_or_404(Character, character_id, description = "No character found")
     response_body = character.serialize()
     
     return jsonify(response_body), 200
