@@ -58,3 +58,25 @@ class Planet(db.Model):
             "climate": self.climate,
             # "favorites": [fav_planet.serialize() for fav_planet in self.favorites ]
         }
+    
+class Character(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    gender: Mapped[str] = mapped_column(String(120), nullable=True)
+    hair_color: Mapped[str] = mapped_column(String(120), nullable=True)
+    eye_color: Mapped[str] = mapped_column(String(120), nullable=True)
+
+    # Relationship One - Many
+    # favorites: Mapped[list["FavoriteCharacter"]] = relationship(
+    #     "FavoriteCharacter",
+    #     back_populates="character"
+    # )
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "gender": self.gender,
+            "hair_color": self.hair_color,
+            "eye_color": self.eye_color
+        }
