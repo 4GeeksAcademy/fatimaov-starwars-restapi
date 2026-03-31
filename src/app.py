@@ -69,6 +69,14 @@ def get_characters():
     
     return jsonify(response_body), 200
 
+# GET single character
+@app.route('/characters/<int:character_id>', methods=['GET'])
+def get_single_character(character_id):
+    character = db.session.get(Character, character_id)
+    response_body = character.serialize()
+    
+    return jsonify(response_body), 200
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
