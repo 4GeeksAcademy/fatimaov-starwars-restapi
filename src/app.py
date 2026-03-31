@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Planet
 from sqlalchemy import select
 #from models import Person
 
@@ -42,6 +42,14 @@ def sitemap():
 def get_users():
     all_users = db.session.execute(select(User)).scalars().all()
     response_body = [user.serialize() for user in all_users]
+    
+    return jsonify(response_body), 200
+
+# GET all planets
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    all_planets = db.session.execute(select(Planet)).scalars().all()
+    response_body = [planet.serialize() for planet in all_planets]
     
     return jsonify(response_body), 200
 
