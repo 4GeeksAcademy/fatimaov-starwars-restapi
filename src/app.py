@@ -53,6 +53,14 @@ def get_planets():
     
     return jsonify(response_body), 200
 
+# GET single planet
+@app.route('/planets/<int:planet_id>', methods=['GET'])
+def get_single_planet(planet_id):
+    planet = db.session.get(Planet, planet_id)
+    response_body = planet.serialize()
+    
+    return jsonify(response_body), 200
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
