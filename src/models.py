@@ -86,7 +86,7 @@ class FavoritePlanet(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "planet": self.planet
+            "planet": self.planet.name
         }
 
 class FavoriteCharacter(db.Model):
@@ -103,5 +103,5 @@ class FavoriteCharacter(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "character": self.character
+            "character": self.character.name
         }

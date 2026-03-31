@@ -82,9 +82,8 @@ def get_single_character(character_id):
 def get_favorites(user_id):
     user = db.get_or_404(User, user_id, description = "No user found")
     response_body = {
-        "user_id": user.id,
-        "favorite_planets": user.favorite_planets,
-        "favorite_characters": user.favorite_characters
+        "favorite_planets": [favplanet.planet.name for favplanet in user.favorite_planets],
+        "favorite_characters": [favcharacter.character.name for favcharacter in user.favorite_characters]
     }
     
     return jsonify(response_body), 200
