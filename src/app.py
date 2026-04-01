@@ -77,7 +77,7 @@ def get_single_character(character_id):
     
     return jsonify(response_body), 200
 
-# GET user favorite planets and characters
+# GET user's favorite planets and characters
 @app.route('/users/<int:user_id>/favorites', methods=['GET'])
 def get_favorites(user_id):
     user = db.get_or_404(User, user_id, description = "No user found")
