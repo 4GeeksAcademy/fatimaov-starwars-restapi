@@ -113,6 +113,29 @@ def post_favorite_planet(user_id, planet_id):
 
     return msg, 200
 
+# POST user's favorite character
+@app.route('/users/<int:user_id>/add_favorite/character/<int:character_id>', methods=['POST'])
+def post_favorite_character(user_id, character_id):
+    user = db.get_or_404(User, user_id, description="No user found")
+    character = db.get_or_404(Character, character_id, description="No character found")
+    if user and character:
+        favorite_exists = db.session.execute(
+            select(FavoriteCharacter)
+            .where(
+                FavoriteCharacter.user_id == user_id,
+                FavoriteCharacter.character_id == character_id)
+        ).scalar_one_or_none() is not None
+
+        if not favorite_exists:
+            db.session.add(FavoriteCharacter(
+                user_id=user_id, character_id=character_id))
+            db.session.commit()
+            msg = f'Character "{character.name}" has been added to favorites'
+        else:
+            msg = f'Character "{character.name}" is already in favorites'
+
+    return msg, 200
+
 # DELETE user's favorite planet
 @app.route('/users/<int:user_id>/delete_favorite/planet/<int:planet_id>', methods=['DELETE'])
 def delete_favorite_planet(user_id, planet_id):
@@ -125,7 +148,6 @@ def delete_favorite_planet(user_id, planet_id):
                 FavoritePlanet.user_id == user_id,
                 FavoritePlanet.planet_id == planet_id)
         ).scalar_one_or_none() is not None
-        print(favorite_exists)
         if favorite_exists:
             db.session.execute(
                 delete(FavoritePlanet).where(
